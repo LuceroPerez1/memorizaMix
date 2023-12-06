@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="./memorizaMix.css"/>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MemorizaMix</title>
+        <link rel="shortcut icon" href="./IMAGENES/logo.jpg">
+    </head>
+    <header>
+        <div class="titulo">
+            <h1>¡Bienvenido a MemorizaMix!</h1>
+            <p>Prepara tu mente para un desafío memorable.</p>
+        </div>
+    </header>
+    <body>
+        <div class="introduccion">
+            <p>Tu tarea es recordar la secuencia presentada y recrearla con precisión. Cada ronda te llevará a nuevas combinaciones, ¡así que mantén tus sentidos agudos y listos para recordar!
+                ¿Estás listo para poner a prueba tu memoria y superar desafíos cada vez mayores? 
+            </p>
+        </div>
+        <div class="instrucciones">
+            <p>Elige tu nivel de destreza:</p>
+            <p>1. Nivel Principiante: "Descubrimiento Fácil" <br> 2. Nivel Intermedio: "Ritmo Normal" <br> 3. Nivel Avanzado: "Experto en Memoria"</p>
+        </div>
+        <div class="botonesDeNiveles">
+            <button id="boton1" onclick="generarNivel('boton1')">Nivel 1</button>
+            <button id="boton2" onclick="generarNivel('boton2')">Nivel 2</button>
+            <button id="boton3" onclick="generarNivel('boton3')">Nivel 3</button>
+        </div>
+        <div id="contenido" class="contenidoDelJuego">
+            <table>
+                <tbody class="contenido"></tbody>
+            </table>
+        </div>
+        <div class="respuesta">
+            <input id="respuesta" class="respuesta" type="text" placeholder="¿Qué lograste visualizar?">
+        </div>
+        <div class="verificar">
+            <button id="botonVerificar" onclick="verificar()">Verificar</button>
+        </div>
+        <div id="tablaPuntos" class="puntaje">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Tu puntaje es de: </td>
+                        <td id="puntajeNumero"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="botonPie">
+            <button id="botonBack" onclick="volverJugar()">Volver a jugar</button>
+        </div>
+        <script>
+        let contadorRespuesta = 0
+        let secuencia = []
+        let valorGenerado;
+        let nivel;
+
+        function generarNivel(id) {
+            document.getElementById('boton1').classList.add('oculto');
+            document.getElementById('boton2').classList.add('oculto');
+            document.getElementById('boton3').classList.add('oculto');
+            document.getElementById('botonBack').classList.add('oculto');
+            document.getElementById('tablaPuntos').classList.add('oculto');
+            document.getElementById('respuesta').classList.remove('oculto');
+            document.getElementById('contenido').classList.remove('oculto');
+            document.getElementById('botonVerificar').classList.remove('oculto');
+            nivel = id;
+            let contenidoTabla = document.querySelector(".contenidoDelJuego tbody");
+            let fila = document.createElement("tr")
+            let celda = document.createElement("td")
+            celda.setAttribute("id", "celda");
+            if (id === 'boton1') {
+                let numeroAleatorio = generarNumeroAleatorio();
+                celda.textContent = numeroAleatorio
+            } else if (id === 'boton2') {
+                let numLetAleatorio = generarNumeroAleatorio() + generarLetraAleatoria();
+                celda.textContent = numLetAleatorio;
+            } else if (id === 'boton3') {
+                let numLetEmoAleatorio = generarNumeroAleatorio() + generarLetraAleatoria() + generarEmojiAleatorio();
+                celda.textContent = numLetEmoAleatorio;
+            } else {
+                console.log('Nivel no válido.')
+            }
+            valorGenerado = celda.textContent;
+                setTimeout(function () {
+                    contenidoTabla.innerHTML = "";
+                }, 5000);
+                fila.appendChild(celda)
+                contenidoTabla.appendChild(fila);
+        };
+
+        function volverJugar() {
+            document.getElementById('boton1').classList.remove('oculto');
+            document.getElementById('boton2').classList.remove('oculto');
+            document.getElementById('boton3').classList.remove('oculto');
+            document.getElementById('tablaPuntos').classList.add('oculto');
+            document.getElementById('botonBack').classList.add('oculto');
+            document.getElementById('botonVerificar').classList.add('oculto');
+            document.getElementById('respuesta').classList.add('oculto');
+            document.getElementById('contenido').classList.add('oculto');
+
+            contadorRespuesta = 0;
+            
+            //document.querySelector(".contenidoDelJuego tbody").innerHTML = "";
+            document.getElementById('respuesta').value = '';
+        };
+
+
+
+        function verificar() {
+            let respuestaUsuario = document.getElementById('respuesta').value;
+
+            if (respuestaUsuario === valorGenerado) {
+                contadorRespuesta++;
+                if (nivel === 'boton1') {
+                    valorGenerado = valorGenerado + generarNumeroAleatorio();
+                } else if (nivel === 'boton2') {
+                    valorGenerado = valorGenerado + generarNumeroAleatorio() + generarLetraAleatoria();
+                } else if (nivel === 'boton3') {
+                    valorGenerado = valorGenerado + generarNumeroAleatorio() + generarLetraAleatoria() + generarEmojiAleatorio();
+                } else {
+                    document.querySelector(".contenidoDelJuego tbody").innerHTML = "";
+                    console.log('Respuesta inválida.')
+                }
+
+                let celda = document.querySelector("#contenido");
+                celda.textContent = valorGenerado;
+                setTimeout(function () {
+                    contenido.innerHTML = "";
+                }, 5000);
+                document.getElementById('respuesta').value = '';
+
+                console.log(secuencia);
+                console.log(valorGenerado);
+                console.log(respuestaUsuario);
+                console.log(nivel);
+            } else {
+                document.getElementById('tablaPuntos').classList.remove('oculto');
+                document.getElementById('botonBack').classList.remove('oculto');
+                document.getElementById('botonVerificar').classList.add('oculto');
+                document.getElementById('respuesta').classList.add('oculto');
+                document.getElementById('contenido').classList.add('oculto');
+                document.getElementById('puntajeNumero').textContent = contadorRespuesta;
+            }
+        };
+
+        function generarNumeroAleatorio() {
+            return Math.floor(Math.random() * 40 + 1);
+        };
+
+        function generarLetraAleatoria() {
+            let letras = [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H",
+            "I",
+            "J",
+            "K",
+            "L",
+            "M",
+            "N",
+            "Ñ",
+            "O",
+            "P",
+            "Q",
+            "R",
+            "S",
+            "T",
+            "U",
+            "V",
+            "W",
+            "X",
+            "Y",
+            "Z",
+            ];
+            return letras[Math.floor(Math.random() * letras.length)];
+        };
+
+        function generarEmojiAleatorio() {
+            let emojis = [
+            "🚀",
+            "😊",
+            "🎉",
+            "🌈",
+            "🍎",
+            "🌟",
+            "🌍",
+            "📚",
+            "🎸",
+            "🏆",
+            "🍓",
+            "🌷",
+            "🎤",
+            "🌳",
+            "🐬",
+            "🍉",
+            "🎨",
+            "🍦",
+            "🌺",
+            "🍕",
+            ];
+            return emojis[Math.floor(Math.random() * emojis.length)];
+        };
+
+        setTimeout(function () {
+                document.getElementById('tablaPuntos').classList.add('oculto');
+                document.getElementById('botonBack').classList.add('oculto');
+                document.getElementById('respuesta').classList.add('oculto');
+                document.getElementById('contenido').classList.add('oculto');
+                document.getElementById('botonVerificar').classList.add('oculto');
+        });
+
+        </script>
+    </body>
+</html>
