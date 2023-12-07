@@ -93,6 +93,7 @@
         };
 
         function volverJugar() {
+            console.log('Boton volverJugar presionado')
             document.getElementById('boton1').classList.remove('oculto');
             document.getElementById('boton2').classList.remove('oculto');
             document.getElementById('boton3').classList.remove('oculto');
@@ -103,9 +104,11 @@
             document.getElementById('contenido').classList.add('oculto');
 
             contadorRespuesta = 0;
-            
+            let contenidoTabla = document.querySelector(".contenidoDelJuego tbody");
             //document.querySelector(".contenidoDelJuego tbody").innerHTML = "";
+            //contenidoTabla = document.querySelector(".contenidoDelJuego tbody");
             document.getElementById('respuesta').value = '';
+            //generarNivel(nivel);
         };
 
 
