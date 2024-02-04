@@ -75,6 +75,7 @@
             if (id === 'boton1') {
                 let numeroAleatorio = generarNumeroAleatorio();
                 celda.textContent = numeroAleatorio
+                console.log("Boton 1 presionado")
             } else if (id === 'boton2') {
                 let numLetAleatorio = generarNumeroAleatorio() + generarLetraAleatoria();
                 celda.textContent = numLetAleatorio;
@@ -109,11 +110,13 @@
             //contenidoTabla = document.querySelector(".contenidoDelJuego tbody");
             document.getElementById('respuesta').value = '';
             //generarNivel(nivel);
+            console.log("Boton volver a jugar presionado")
         };
 
 
 
         function verificar() {
+            let celda = document.querySelector(".contenido");
             let respuestaUsuario = document.getElementById('respuesta').value;
 
             if (respuestaUsuario === valorGenerado) {
@@ -129,10 +132,10 @@
                     console.log('Respuesta inválida.')
                 }
 
-                let celda = document.querySelector("#contenido");
+                let celda = document.querySelector(".contenido");
                 celda.textContent = valorGenerado;
                 setTimeout(function () {
-                    contenido.innerHTML = "";
+                    celda.innerHTML = "";
                 }, 5000);
                 document.getElementById('respuesta').value = '';
 
